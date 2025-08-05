@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Who's Watching?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #000000 100%);
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Netflix-style background pattern */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(229, 9, 20, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(229, 9, 20, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    h1 {
+      margin-bottom: 60px;
+      font-size: 3.2em;
+      font-weight: 700;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      animation: fadeInDown 1s ease-out 0.5s forwards;
+      letter-spacing: -1px;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profiles {
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      gap: 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      transform: scale(1);
+      position: relative;
+    }
+
+    .profile::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: 3px solid transparent;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .profile:hover::before {
+      border-color: #ffffff;
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .profile:hover {
+      transform: scale(1.1);
+    }
+
+    .profile:hover .face {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile:hover .name {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .face {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .face::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .profile:hover .face::before {
+      left: 100%;
+    }
+
+    .recruiter { 
+      background: linear-gradient(135deg, #1e90ff 0%, #0066cc 100%);
+      border: 2px solid #4da6ff;
+    }
+    
+    .lostkid { 
+      background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+      border: 2px solid #ff8080;
+    }
+    
+    .stalker { 
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      border: 2px solid #ffeb3b;
+    }
+    
+    .investor { 
+      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+      border: 2px solid #5cb85c;
+    }
+
+    .name {
+      font-size: 16px;
+      font-weight: 400;
+      color: #cccccc;
+      transition: all 0.3s ease;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      letter-spacing: 0.5px;
+    }
+
+    /* Click animation */
+    .profile:active {
+      transform: scale(0.95);
+    }
+
+    .profile:active .face {
+      transform: scale(0.95);
+    }
+
+    /* Loading animation for page transitions */
+    .profile.loading {
+      pointer-events: none;
+    }
+
+    .profile.loading .face {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 40px;
+      }
+
+      .profiles {
+        grid-template-columns: repeat(2, 110px);
+        gap: 30px;
+      }
+
+      .face {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+      }
+
+      .name {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      .profiles {
+        grid-template-columns: repeat(2, 90px);
+        gap: 25px;
+      }
+
+      .face {
+        width: 80px;
+        height: 80px;
+        font-size: 35px;
+      }
+
+      .name {
+        font-size: 12px;
+      }
+    }
+
+    /* Add a subtle Netflix-style glow effect */
+    .netflix-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(229, 9, 20, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* Add subtle particle effect */
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: particle-float 8s linear infinite;
+    }
+
+    @keyframes particle-float {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="netflix-glow"></div>
+  
+  <!-- Subtle particle effects -->
+  <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+  <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+  <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+  <div class="particle" style="left: 50%; animation-delay: 1s;"></div>
+  <div class="particle" style="left: 60%; animation-delay: 3s;"></div>
+  <div class="particle" style="left: 70%; animation-delay: 5s;"></div>
+  <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
+  <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+
+  <h1>Who's watching?</h1>
+  
+  <div class="profiles">
+    <a href="Recruiter.html" class="profile" onclick="handleClick(this)">
+      <div class="face recruiter">😊</div>
+      <div class="name">Recruiter</div>
+    </a>
+    
+    <a href="Critic.html" class="profile" onclick="handleClick(this)">
+      <div class="face lostkid">🌟</div>
+      <div class="name">Critique</div>
+    </a>
+    
+    <a href="Spy-Fi.html" class="profile" onclick="handleClick(this)">
+      <div class="face stalker">🕶️</div>
+      <div class="name">Spy-Fi</div>
+    </a>
+    
+    <a href="investor.html" class="profile" onclick="handleClick(this)">
+      <div class="face investor">💰</div>
+      <div class="name">Investor</div>
+    </a>
+  </div>
+
+  <script>
+    function handleClick(element) {
+      // Add loading state
+      element.classList.add('loading');
+      
+      // Add a slight delay for better UX
+      setTimeout(() => {
+        // The link will navigate naturally
+      }, 300);
+    }
+
+    // Add entrance animation stagger
+    document.addEventListener('DOMContentLoaded', () => {
+      const profiles = document.querySelectorAll('.profile');
+      profiles.forEach((profile, index) => {
+        profile.style.animationDelay = `${1.2 + index * 0.1}s`;
+      });
+    });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const profiles = document.querySelectorAll('.profile');
+      const focusedElement = document.activeElement;
+      const currentIndex = Array.from(profiles).indexOf(focusedElement);
+
+      switch(e.key) {
+        case 'ArrowRight':
+          if (currentIndex < profiles.length - 1) {
+            profiles[currentIndex + 1].focus();
+          } else {
+            profiles[0].focus();
+          }
+          e.preventDefault();
+          break;
+        case 'ArrowLeft':
+          if (currentIndex > 0) {
+            profiles[currentIndex - 1].focus();
+          } else {
+            profiles[profiles.length - 1].focus();
+          }
+          e.preventDefault();
+          break;
+        case 'ArrowDown':
+          if (currentIndex < 2) {
+            profiles[currentIndex + 2]?.focus();
+          }
+          e.preventDefault();
+          break;
+        case 'ArrowUp':
+          if (currentIndex >= 2) {
+            profiles[currentIndex - 2].focus();
+          }
+          e.preventDefault();
+          break;
+        case 'Enter':
+          if (focusedElement && focusedElement.classList.contains('profile')) {
+            focusedElement.click();
+          }
+          break;
+      }
+    });
+
+  </script>
+</body>
+</html>
