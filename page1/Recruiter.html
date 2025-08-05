@@ -11,7 +11,7 @@
   function showpopup(){
     document.getElementById("wavespops").style.display= "block";}
     function hidepopup(){
-      document.getElementById("wavespop").style.display="none";
+      document.getElementById("wavepops").style.display="none";
     }
     window.addEventListener("keydown",function (e){
       if(e.key === "Escape"){
@@ -44,10 +44,9 @@
  <div class="scroll-container">
  <div class="card-row">
  <div class="card">
- <img src="../Images/linkedin.jpg" alt="Project 1"  style="cursor: pointer;" onclick="showPopup()"/>
+ <img src="../Images/linkedin.jpg" alt="Project 1"  style="cursor: pointer;" onclick="showpopup()"/>
  <div id="wavepops" class="popup">
-  <span class="clode-btn" onclick="hidepopup()"></span>
-  <img src="../Images/linkedin.jpg" style="width: 100px;"/>
+  <span class="close-btn" onclick="hidepopup()">X</span>
   <h2>Linkedin</h2>
   <p> A revolutionary web chat application that enables communication </p>
   
