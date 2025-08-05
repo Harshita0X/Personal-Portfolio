@@ -5,8 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Harshita Behl - Portfolio</title>
     <link rel="stylesheet" href="R.css">
+   
 </head>
 <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 150vh; 
+        }
+
+        #play-pause-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #0a0a0a;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        #play-pause-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Styling for the pause icon */
+        #play-pause-btn.pause::before {
+            content: '';
+            display: block;
+            width: 18px;
+            height: 18px;
+            border-left: 6px solid white;
+            border-right: 6px solid white;
+        }
+
+        /* Styling for the play icon */
+        #play-pause-btn.play::before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 20px solid white;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body></body>
+    
+    <audio id="background-music" loop>
+        <source src="Taylor Swift - Shake It Off.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="play-pause-btn" class="play"></div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('background-music');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay succeeded, update the button to the 'pause' state
+                    console.log("Autoplay successful.");
+                    playPauseBtn.classList.remove('play');
+                    playPauseBtn.classList.add('pause');
+                }).catch(error => {
+                    // Autoplay was prevented. The button remains in the 'play' state.
+                    console.warn("Autoplay was blocked by the browser. User must click the button to start the music.");
+                    // The button icon already shows 'play', so no action is needed here.
+                });
+            }
+
+            // 2. Add the click event listener to the button
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.classList.remove('play');
+                    playPauseBtn.classList.add('pause');
+                } else {
+                    audio.pause();
+                    playPauseBtn.classList.remove('pause');
+                    playPauseBtn.classList.add('play');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
     <nav class="sticky-nav">
         <a href="#" class="nav-name">HARSHITA BEHL</a>
@@ -189,7 +292,7 @@
                 2: { title: "GitHub Profile", description: "Dive into my Projects ,code experiments and development journey.\n\n clean commits,cleaver logic and little bit of magic.\n\n\nGet a closure look on how I built ,break and build better", link: "https://github.com/Harshita0X" },
                 3: { title: "Collab? Chai? click!", description: "Schedule a face-to-face brilliance!\n\n\n\n I promise: no longer forums,no awkward handshakes.Just a 30 min meaninful conversation ", link: "https://calendly.com/behlharshita21/30min" },
                 4: { title: "Death Note", description: "A mysterious notebook falls from the sky.Write a name,they die.Now it's genius vs. genius in a deadly mind game - where every potato chip might be your last", link: "https://www.netflix.com/in/title/70204970?source=35" },
-                5: { title: "A Silent Voice", description: "The place that turned little curiosity into big dreams.", link: "https://www3.stage.netflix.com/in/title/80223226" },
+                5: { title: "A Silent Voice", description: "A film exploring themes of bullying,disability,mental health,self worth,and forgiveness", link: "https://www3.stage.netflix.com/in/title/80223226" },
                 6: { title: "Demon Slayer", description: "A boy with a heart of gold and a sword of sunshine slices dmons like veggies - while carrying his demon sister", link: "https://www.bing.com/ck/a?!&&p=4536d76429610b14bf7288aa7121a8357ea10a9780887245a783698f492fa635JmltdHM9MTc1NDM1MjAwMA&ptn=3&ver=2&hsh=4&fclid=1078d6e0-64be-6ce1-0fed-c0d865ec6de2&psq=demon+slayer&u=a1aHR0cHM6Ly93d3cuY3J1bmNoeXJvbGwuY29tL3Nlcmllcy9HWTVQNDhYRVkvZGVtb24tc2xheWVyLWtpbWV0c3Utbm8teWFpYmE&ntb=1" },
                 7: { title: "Stranger Things", description: "A kid vanishes, a girl with Wi-Fi powers shows up, and now a bunch of 80s kids are fighting government creeps,monster-slugs,and puberty-all before dinner", link: "https://www.netflix.com/in/title/80057281" },
                 8: { title: "Queen's Gambit", description: "An orphaned chess prodigy battles addiction,bad wigs,an brilliant men-one checkmate at a time", link: "https://www.netflix.com/in/title/80234304" },

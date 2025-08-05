@@ -5,8 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Harshita Behl - Portfolio</title>
     <link rel="stylesheet" href="R.css">
+   
 </head>
 <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        
+        body {
+        
+            font-family: sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 150vh; /* Make the page scrollable for demonstration */
+        }
+
+        #play-pause-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #0a0a0a;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        #play-pause-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Styling for the pause icon */
+        #play-pause-btn.pause::before {
+            content: '';
+            display: block;
+            width: 18px;
+            height: 18px;
+            border-left: 6px solid white;
+            border-right: 6px solid white;
+        }
+
+        /* Styling for the play icon */
+        #play-pause-btn.play::before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 20px solid white;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <audio id="background-music" loop>
+        <source src="Thunder_320(PagaiWorld.com).mp3" type="audio/mpeg">
+        
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="play-pause-btn" class="play"></div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('background-music');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+
+            // 1. Attempt to autoplay the music
+            // Note: Modern browsers will likely block this until a user interaction occurs.
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay succeeded, update the button to the 'pause' state
+                    console.log("Autoplay successful.");
+                    playPauseBtn.classList.remove('play');
+                    playPauseBtn.classList.add('pause');
+                }).catch(error => {
+                    // Autoplay was prevented. The button remains in the 'play' state.
+                    console.warn("Autoplay was blocked by the browser. User must click the button to start the music.");
+                    // The button icon already shows 'play', so no action is needed here.
+                });
+            }
+
+            // 2. Add the click event listener to the button
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.classList.remove('play');
+                    playPauseBtn.classList.add('pause');
+                } else {
+                    audio.pause();
+                    playPauseBtn.classList.remove('pause');
+                    playPauseBtn.classList.add('play');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
     <nav class="sticky-nav">
         <a href="#" class="nav-name">HARSHITA BEHL</a>
