@@ -44,30 +44,28 @@ body {
     text-decoration: none;
 }
 
-/* Add this new class for the image */
 .hero-image {
-    position: absolute; /* This is the key. It removes the image from the flow. */
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the entire hero area */
-    z-index: -1; /* Puts the image behind other content */
-    filter: brightness(0.4); /* Optional: Darkens the image for better text readability */
+    object-fit: cover; 
+    z-index: -1; 
+    filter: brightness(0.4);  
 }
 
-/* Modify the existing .hero class */
 .hero {
-    position: relative; /* This is crucial. It becomes the positioning context. */
+    position: relative; 
     width: 100%;
     min-height: 100vh;
     padding: 60px 20px 20px;
-    background: transparent; /* Change to transparent since the image will be the background */
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    z-index: 1; /* Ensures the hero content is above the image */
+    z-index: 1; 
 }
 .header-content {
     max-width: 900px;
@@ -247,11 +245,8 @@ body {
     transform: scale(1.1);
     box-shadow: 0 0 15px 5px hotpink;
 }
-
-/* Moving Tech Logos (Skill Vault) */
 .moving-items-wrapper {
     overflow: hidden;
-    background: #111;
     padding: 20px 0;
     white-space: nowrap;
     position: relative;
@@ -271,11 +266,6 @@ body {
 .moving-item img {
     height: 100px;
     transition: filter 0.3s ease;
-    filter: grayscale(100%);
-}
-
-.moving-item img:hover {
-    filter: grayscale(0%);
 }
 
 @keyframes scroll-left {
@@ -283,7 +273,6 @@ body {
     to { transform: translateX(-50%); }
 }
 
-/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
@@ -346,7 +335,6 @@ body {
     background: #ff69b4;
 }
 
-/* Footer */
 .footer {
     text-align: center;
     padding: 20px;
@@ -356,7 +344,6 @@ body {
     margin-top: 40px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .typewriter {
         font-size: 2.5rem;
@@ -369,9 +356,9 @@ body {
         margin: 10px auto;
     }
     .card {
-        width: 180px; /* Adjust card width for better fit on small screens */
+        width: 180px; 
     }
     .moving-item img {
-        height: 60px; /* Make logos smaller on mobile */
+        height: 60px; 
     }
 }
